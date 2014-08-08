@@ -24,4 +24,20 @@ class Author
   def ==(another_author)
     self.name == another_author.name
   end
+
+  def self.search_by_name(searched_name)
+    Author.all.each.detect {|author| author.name == searched_name}.id.to_i
+  end
+
+  def edit(old_name, new_name)
+    author_id = Author.search_by_name(old_name)
+    result = DB.exec("UPDATE authors SET name = '#{new_name}' WHERE id = #{author_id} RETURNING name;")
+    result.first['name']
+  end
+
+  def delete(author_name)
+    author_id = Author.search_by_name(author_name)
+    result = DB.exec("DELETE FROM authors WHERE id= #{author_id}")
+    Author.all
+  end
 end
