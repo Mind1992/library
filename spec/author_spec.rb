@@ -46,4 +46,12 @@ describe 'Author' do
     author.delete("Herman Melville")
     expect(Author.all).to eq []
   end
+
+  it 'lets you search for a book by author' do
+    author = Author.new({:name => 'Herman Melville'})
+    author.save
+    book = Book.new({:name => 'Moby Dick'})
+    book.save
+    expect(Author.serch_for_book('Moby Dick')).to eq book.name
+  end
 end
