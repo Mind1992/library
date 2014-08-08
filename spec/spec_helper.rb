@@ -4,7 +4,7 @@ require 'book'
 require 'pry'
 require 'author'
 # require 'patron'
-# require 'copy'
+require 'copy'
 
 
 DB = PG.connect({:dbname => 'library_test'})
