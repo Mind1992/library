@@ -40,4 +40,19 @@ class Book
     result = DB.exec("DELETE FROM books WHERE id= #{book_id}")
     Book.all
   end
+
+  def join_with_author(input_author_id)
+    DB.exec("INSERT INTO authors_books (book_id, author_id) VALUES (#{self.id}, #{input_author_id});")
+  end
+
+  def show_authors_books(input_author_id)
+    books=[]
+    results = DB.exec("select books.* from authors join authors_books on
+    (authors.id = authors_books.author_id)
+    join books on (authors_books.book_id = books.id) where authors.id = #{input_author_id}") ;
+    results.each do |result|
+      books << result['id'].to_i
+    end
+    books
+  end
 end

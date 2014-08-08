@@ -47,11 +47,15 @@ describe 'Author' do
     expect(Author.all).to eq []
   end
 
-  it 'lets you search for a book by author' do
-    author = Author.new({:name => 'Herman Melville'})
-    author.save
+  it 'shows all book authors' do
     book = Book.new({:name => 'Moby Dick'})
     book.save
-    expect(Author.serch_for_book('Moby Dick')).to eq book.name
+    author2 = Author.new({:name => 'J.K. Rowling'})
+    author2.save
+    author = Author.new({:name => 'Herman Melville'})
+    author.save
+    book.join_with_author(author.id)
+    book.join_with_author(author2.id)
+    expect(author.show_book_authors(book.id)).to eq [author.id, author2.id]
   end
 end

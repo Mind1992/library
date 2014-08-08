@@ -46,4 +46,18 @@ describe 'Book' do
     book.delete("Moby Dick")
     expect(Book.all).to eq []
   end
+
+  it 'shows all books by author' do
+    book = Book.new({:name => 'Moby Dick'})
+    book.save
+    book2 = Book.new({:name => 'Harry Potter'})
+    book2.save
+    author = Author.new({:name => 'Herman Melville'})
+    author.save
+    book.join_with_author(author.id)
+    book2.join_with_author(author.id)
+    expect(book.show_authors_books(author.id)).to eq [book.id, book2.id]
+  end
+
+
 end
